@@ -1,0 +1,42 @@
+@(content: Html)
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="iPic.io - share and pic everything">
+        <meta name="author" content="Nicolas Bonvin">
+        <link rel="shortcut icon" href="@routes.Assets.at("images/icon.png")">
+
+        <title>iPic.io</title>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:300,200,100' rel='stylesheet' type='text/css'>
+
+        <!-- Bootstrap core CSS -->
+        <link href="@routes.Assets.at("js/bootstrap/dist/css/bootstrap.css")" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("js/jquery.gritter/css/jquery.gritter.css")" />
+        <link rel="stylesheet" href="@routes.Assets.at("fonts/font-awesome-4/css/font-awesome.min.css")">
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="@routes.Assets.at("../../assets/js/html5shiv.js")"></script>
+        <script src="@routes.Assets.at("../../assets/js/respond.min.js")"></script>
+        <![endif]-->
+
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("js/jquery.nanoscroller/nanoscroller.css")" />
+        <link rel="stylesheet" type="text/css" href="@routes.Assets.at("js/dropzone/css/dropzone.css")" />
+
+        <link href="@routes.Assets.at("css/skin-blue.css")" rel="stylesheet" />
+    </head>
+    <!--body class="texture"-->
+        @content
+
+        <!--script type="text/javascript" src="@routes.Assets.at("js/behaviour/voice-commands.js")"></script-->
+        <script type="text/javascript" src="@routes.Assets.at("js/bootstrap/dist/js/bootstrap.min.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.flot/jquery.flot.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.flot/jquery.flot.pie.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.flot/jquery.flot.resize.js")"></script>
+        <script type="text/javascript" src="@routes.Assets.at("js/jquery.flot/jquery.flot.labels.js")"></script>
+    </body>
+</html>

@@ -1,0 +1,260 @@
+@(piclet: String, adminToken: String, files: List[iFile])
+
+@main {
+<body class="animated">
+
+<div id="cl-wrapper">
+
+<!--div class="cl-sidebar">
+    <div class="cl-toggle"><i class="fa fa-bars"></i></div>
+    <div class="cl-navblock">
+        <div class="menu-space">
+            <div class="content">
+                <div class="sidebar-logo">
+                    <div class="logo">
+                        <a href="index2.html"></a>
+                    </div>
+                </div>
+
+                <div class="side-user">
+
+                    <div class="info">
+                        <p>Public Piclet URL:</p>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" readonly value="https://ipic.io/@piclet">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Share <span class="caret"></span></button>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="#">Copy to clipboard</a></li>
+                                <li><a href="#">Send an email</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+
+                <div class="col-sm-6 col-md-6 col-lg-6">
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div-->
+<div class="container-fluid" id="pcont">
+    <!-- TOP NAVBAR -->
+    <div id="head-nav" class="topbar navbar navbar-default">
+        <div class="container-fluid">
+
+
+
+            <div class="navbar-collapse">
+
+                <ul class="nav navbar-nav horizontal">
+                    <li class=""><a href="@routes.Application.index"> <strong>iPic.io </strong></a></li>
+                    <li class="active"><a href="@routes.Application.list(piclet)"><i class="fa fa-globe"></i> Go to your public piclet</a></li>
+
+                </ul>
+
+
+            </div><!--/.nav-collapse animate-collapse -->
+
+        </div>
+    </div>
+
+
+    <div class="cl-mcont">
+        <div class="page-head">
+
+
+
+        </div>
+
+
+
+
+
+        <form action="@routes.Application.uploadPrivate(piclet,adminToken)" class="dropzone" id="my-awesome-dropzone"></form>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+                    <div class="header">
+                        <h3>Your files</h3>
+                    </div>
+                    <div class="content">
+                        <div class="table-responsive">
+                            <table class="table no-border hover" id="files-table">
+                                <thead class="no-border">
+                                <tr>
+                                    <th style="width:2%;"><input type="checkbox" id="check-all"></th>
+                                    <th style="width:10%;"><strong></strong></th>
+                                    <th style="width:30%;"><strong>Name</strong></th>
+                                    <th style="width:15%;"><strong>Size</strong></th>
+                                    <th style="width:15%;"><strong>Last Modification</strong></th>
+                                    <th style="width:5%;" class="text-center"><strong>Action</strong></th>
+                                </tr>
+                                </thead>
+                                <tbody class="no-border-y">
+                                @files.map{ file =>
+                                <tr id="@file.id" >
+                                    <td><input class="check-class" type="checkbox" id="check-@file.id"></td>
+                                    <td>
+                                        <div class="img">
+                                            <!--
+                                            @file
+                                            -->
+                                            @file.thumbnailUrl.map{ u =>
+                                            <img height="50px" src="@u">
+                                            }.getOrElse {
+                                            <i class="fa fa-file-text-o fa-4x"></i>
+                                            }
+                                        </div>
+
+                                    </td>
+                                    <td><a href="@file.url">@file.name</a></td>
+                                    <td>@file.sizePretty</td>
+                                    <td>@file.lastModifPretty</td>
+                                    <td class="text-center"><a class="label label-danger ipic-delete-file" href=""><i class="fa fa-times"></i></a></td>
+                                </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <button type="button" class="btn btn-danger ipic-delete-selected">Delete all checked</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.cookie/jquery.cookie.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.pushmenu/js/jPushMenu.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.nanoscroller/jquery.nanoscroller.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.sparkline/jquery.sparkline.min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.ui/jquery-ui.js")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.gritter/js/jquery.gritter.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/behaviour/core.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/dropzone/dropzone.js")"></script>
+
+
+<script type="text/javascript">
+Dropzone.options.myAwesomeDropzone = {
+ maxFilesize: @util.Config.maxFileLengthInMB,
+  init: function() {
+    this.on("complete", function() {
+      if (this.getQueuedFiles().length == 0 && this.getUploadingFiles().length == 0) {
+        // File finished uploading, and there aren't any left in the queue.
+        console.log("upload has finished");
+        $.gritter.add({
+            title: 'Upload completed',
+            text: 'Your files have been uploaded.',
+            class_name: 'clean',
+            time: ''
+      });
+      }
+    });
+
+    this.on("success", function(file, response) {
+        //console.log(response);
+        //console.log(file);
+        var rep = jQuery.parseJSON(response);
+        var append = '<tr id="'+rep.id+'"><td><input type="checkbox"></td><td><div class="img">';
+        if (rep.thumbnailUrl) {
+            append += '<img height="50px" src="' + rep.thumbnailUrl + '">';
+        } else {
+            append += '<i class="fa fa-file-text-o fa-4x"></i>';
+        }
+        append += '</div></td><td><a href='+file.url+'>'+file.name+'</a></td><td>N/A</td><td>'+rep.modificationDatePretty+'</td><td class="text-center"><a class="label label-danger ipic-delete-file" href=""><i class="fa fa-times"></i></a></td></tr>'
+        $('#' + rep.id).remove();
+        $('#files-table > tbody:last').append(append);
+        var dropZone = this;
+        setTimeout(function (){
+             dropZone.removeFile(file);
+         }, 3000);
+
+    });
+
+  }
+
+};
+</script>
+
+<script type="text/javascript">
+$(document).on("click", ".ipic-delete-file", function() {
+    console.log('delete clicked');
+    var file = $(this).closest('tr').find("td").eq(2).find("a").html();
+    var data = new Object();
+    var files = new Array();
+    files[0] = file;
+    data.files = files;
+    $.ajax({
+        url: "@routes.Application.deleteFile(piclet,adminToken)",
+        type : 'POST',
+        dataType : 'json',
+        contentType : 'application/json; charset=utf-8',
+        data : JSON.stringify(data)
+    });
+    $(this).closest('tr').remove();
+    return false;
+});
+
+$(document).on("click", ".ipic-delete-selected", function() {
+
+    console.log('delete selected clicked');
+
+    var files = new Array();
+    $( ".check-class" ).each(function( index, element ) {
+        if($(element).is(':checked')) {
+            var file = $(element).closest('tr').find("td").eq(2).find("a").html();
+            files.push(file);
+            $(element).closest('tr').remove();
+        }
+
+    });
+
+    var file = $(this).closest('tr').find("td").eq(2).html();
+    var data = new Object();
+    data.files = files;
+    $.ajax({
+        url: "@routes.Application.deleteFile(piclet,adminToken)",
+        type : 'POST',
+        dataType : 'json',
+        contentType : 'application/json; charset=utf-8',
+        data : JSON.stringify(data)
+    });
+
+    return false;
+});
+
+function updateCheckBoxes(checked) {
+    $( ".check-class" ).each(function( index, element ) {
+           $(element).prop('checked', checked);
+     });
+
+}
+
+$('#check-all').change(function(){
+     if($(this).is(':checked')){
+        updateCheckBoxes(true);
+     } else {
+        updateCheckBoxes(false);
+     }
+});
+
+</script>
+
+}

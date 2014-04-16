@@ -1,0 +1,166 @@
+@(piclet: String, files: List[iFile], listing:String)
+
+@main {
+<body class="animated">
+
+<div id="cl-wrapper">
+
+<div class="container-fluid" id="pcont">
+    <!-- TOP NAVBAR -->
+
+    <div id="head-nav" class="topbar navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+
+
+                <ul class="nav navbar-nav horizontal">
+                    <li class=""><a href="@routes.Application.index"> <strong>iPic.io </strong></a></li>
+                    <li class="active"><a href="@routes.Application.index"><i class="fa fa-plus-square"></i> Create your own piclet</a></li>
+                    <li class="active"><a href="@routes.Application.getS3ZippedObjects(piclet)"><i class="fa fa-cloud-download"></i> Download piclet as ZIP</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">View<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@routes.Application.list(piclet,Some("gallery"), None)">as Gallery</a></li>
+                            <li><a href="@routes.Application.list(piclet,Some("list"), None)">as List</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+
+
+            </div><!--/.nav-collapse animate-collapse -->
+        </div>
+    </div>
+
+
+    <div class="cl-mcont">
+        <div class="page-head">
+
+        </div>
+
+        @if(listing == "gallery"){
+        <div class="gallery-cont" style="position: relative; height: 676px;">
+            @files.map{ file =>
+            <!-- position: absolute; left: 0px; top: 0px; -->
+            <div class="item">
+                <div class="photo">
+                    <div class="head">
+                        <span class="pull-right"><a href="@file.url.getOrElse("")"><i class="fa fa-cloud-download"></i></a> </span><b>@file.name</b><br>
+                        <span class="desc">537 KB, modified @file.lastModifPretty</span>
+                    </div>
+                    <div class="img">
+                         <a class="fancybox-button" rel="fancybox-button" href="@file.url.getOrElse("")" title="">
+                            @file.thumbnailUrl.map{ u =>
+                            <img src="@u">
+                            }.getOrElse {
+                            <i class="fa fa-file-text-o fa-4x"></i>
+                            }
+                         </a>
+                    </div>
+                </div>
+            </div>
+           }
+        </div>
+        } else {
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block-flat">
+
+                    <div class="content">
+                        <div class="table-responsive">
+                            <table class="table no-border hover" id="files-table">
+                                <thead class="no-border">
+                                <tr>
+                                    <th style="width:10%;"><strong></strong></th>
+                                    <th style="width:30%;"><strong>Name</strong></th>
+                                    <th style="width:15%;"><strong>Size</strong></th>
+                                    <th style="width:15%;"><strong>Last Modification</strong></th>
+                                </tr>
+                                </thead>
+                                <tbody class="no-border-y">
+                                @files.map{ file =>
+                                <tr id="@file.id" >
+                                    <td>
+                                        <div class="img">
+                                            <a class="fancybox-button" rel="fancybox-button" href="@file.url.getOrElse("")" title="">
+                                            @file.thumbnailUrl.map{ u =>
+                                            <img height="50px" src="@u">
+                                            }.getOrElse {
+                                            <i class="fa fa-file-text-o fa-4x"></i>
+                                            }
+                                            </a>
+                                        </div>
+
+                                    </td>
+                                    <td><a href="@file.url">@file.name</a></td>
+                                    <td>@file.sizePretty</td>
+                                    <td>@file.lastModifPretty</td>
+                                </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        }
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.ui/jquery-ui.js")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.pushmenu/js/jPushMenu.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.nanoscroller/jquery.nanoscroller.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.sparkline/jquery.sparkline.min.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/behaviour/core.js")"></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.fancybox/lib/jquery.mousewheel-3.0.6.pack.js")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.fancybox/source/jquery.fancybox.js?v=2.1.5")" ></script>
+<link rel="stylesheet" type="text/css" href="@routes.Assets.at("js/jquery.fancybox/source/jquery.fancybox.css?v=2.1.5")" media="screen" />
+<link rel="stylesheet" type="text/css" href="@routes.Assets.at("js/jquery.fancybox/source/helpers/jquery.fancybox-buttons.css?v=1.0.5")" />
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.fancybox/source/helpers/jquery.fancybox-buttons.js?v=1.0.5")" ></script>
+<link rel="stylesheet" type="text/css" href="@routes.Assets.at("js/jquery.fancybox//source/helpers/jquery.fancybox-thumbs.css?v=1.0.7")" />
+<script type="text/javascript" src="@routes.Assets.at("js/jquery.fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7")" ></script>
+<script type="text/javascript" src="@routes.Assets.at("js/masonry.js")"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$(".fancybox-button").fancybox({
+		prevEffect		: 'none',
+		nextEffect		: 'none',
+		closeBtn		: false,
+		helpers		: {
+			title	: {},
+			buttons	: {}
+		}
+	});
+
+//$('.gallery-cont').masonry().masonry();
+	//Initialize Mansory
+      $('.gallery-cont').masonry({
+        columnWidth: 200,
+        itemSelector: '.item'
+       });
+
+$('#gallery-cont').masonry().masonry();
+});
+</script>
+
+
+}

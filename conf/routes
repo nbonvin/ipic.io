@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Home page
+GET     /                           controllers.Application.index
+GET     /:piclet                    controllers.Application.list(piclet:String, view:Option[String] ?= None, adminToken:Option[String] ?= None)
+POST    /:piclet                    controllers.Application.uploadPrivate(piclet:String, adminToken:String)
+#GET     /:piclet                    controllers.Application.listPublic(piclet:String)
+GET     /:piclet/zip                controllers.Application.getS3ZippedObjects(piclet:String)
+GET     /:piclet/*file              controllers.Application.getS3Object(piclet:String,file:String)
+POST    /:piclet/delete             controllers.Application.deleteFile(piclet:String, adminToken:String)
