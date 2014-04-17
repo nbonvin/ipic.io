@@ -20,19 +20,16 @@
 
                 <ul class="nav navbar-nav horizontal">
                     <li class=""><a href="@routes.Application.index"> <strong>iPic.io </strong></a></li>
-                    <li class="active"><a href="@routes.Application.index"><i class="fa fa-plus-square"></i> Create your own piclet</a></li>
-                    <li class="active"><a href="@routes.Application.getS3ZippedObjects(piclet)"><i class="fa fa-cloud-download"></i> Download piclet as ZIP</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">View<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="@routes.Application.list(piclet,Some("gallery"), None)">as Gallery</a></li>
-                            <li><a href="@routes.Application.list(piclet,Some("list"), None)">as List</a></li>
-                        </ul>
-                    </li>
+                    <li class=""><a href="@routes.Application.index"><i class="fa fa-plus-square"></i> Create your own piclet</a></li>
+                    <li class=""><a href="@routes.Application.getS3ZippedObjects(piclet)"><i class="fa fa-cloud-download"></i> Download piclet as ZIP</a></li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-
+                    @if(listing == "gallery"){
+                    <li><a href="@routes.Application.list(piclet,Some("list"), None)"><i class="fa fa-tasks"></i> View as List</a></li>
+                    } else {
+                    <li><a href="@routes.Application.list(piclet,Some("gallery"), None)"><i class="fa fa-picture-o"></i> View as Gallery</a></li>
+                    }
                 </ul>
 
 
