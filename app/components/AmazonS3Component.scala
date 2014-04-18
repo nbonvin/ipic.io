@@ -30,19 +30,19 @@ class AmazonS3Actor(implicit dispatcher: ExecutionContext) extends Actor {
 
   def receive = {
     case msg @ UploadFile(IpicPayLoad(file, contentType, key, piclet, adminToken))  =>  {
-      Logger.info("Message received at AmazonS3Actor: " + msg)
+      Logger.debug("Message received at AmazonS3Actor: " + msg)
       s3.uploadFile(file, contentType, key, adminToken)
       Cache.remove(piclet)
     }
     case msg @ UploadThumb(IpicPayLoad(file, contentType, key, piclet, adminToken), initiator)  =>  {
-      Logger.info("Message received at AmazonS3Actor: " + msg)
+      Logger.debug("Message received at AmazonS3Actor: " + msg)
       s3.uploadFile(file, contentType, key, adminToken)
       Cache.remove(piclet)
       sender ! Uploaded(initiator)
     }
 
     case msg @ DeleteFile(key,piclet)  =>  {
-      Logger.info("Message received at AmazonS3Actor: " + msg)
+      Logger.debug("Message received at AmazonS3Actor: " + msg)
       s3.deleteFile(key)
       Cache.remove(piclet)
     }

@@ -16,4 +16,10 @@ object Config {
 
   // Default size in pixel of a thumbnail
   val thumbSize = 150
+
+  // Default caching time: 1 hour
+  val cachingTime = 60 * 60
+
+  // Temporary files folder
+  val tempFolder = Play.current.configuration.getString("ipic.tempFolder").getOrElse("/tmp/")
 }

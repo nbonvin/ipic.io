@@ -31,5 +31,5 @@ object FileHelper {
    * Generate a unique file
    * @return
    */
-  def getTmpFile = new File(idLock.synchronized { System.nanoTime() } + ".tmp")
+  def getTmpFile = new File(Config.tempFolder + idLock.synchronized { System.nanoTime() } + ".tmp")
 }

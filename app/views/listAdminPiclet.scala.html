@@ -4,49 +4,6 @@
 <body class="animated">
 
 <div id="cl-wrapper">
-
-<!--div class="cl-sidebar">
-    <div class="cl-toggle"><i class="fa fa-bars"></i></div>
-    <div class="cl-navblock">
-        <div class="menu-space">
-            <div class="content">
-                <div class="sidebar-logo">
-                    <div class="logo">
-                        <a href="index2.html"></a>
-                    </div>
-                </div>
-
-                <div class="side-user">
-
-                    <div class="info">
-                        <p>Public Piclet URL:</p>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" class="form-control" readonly value="https://ipic.io/@piclet">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Share <span class="caret"></span></button>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="#">Copy to clipboard</a></li>
-                                <li><a href="#">Send an email</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <ul class="nav navbar-nav navbar-right">
-
-                </ul>
-
-                <div class="col-sm-6 col-md-6 col-lg-6">
-
-                </div>
-
-
-
-            </div>
-        </div>
-    </div>
-</div-->
 <div class="container-fluid" id="pcont">
     <!-- TOP NAVBAR -->
     <div id="head-nav" class="topbar navbar navbar-default">
@@ -63,7 +20,7 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right user-nav">
-                    <li class=""><a href="@routes.Application.list(piclet)"><span><strong>Public URL: </strong> http://ipic.io@routes.Application.list(piclet)</span></a></li>
+                    <li class=""><a><strong>Public URL: </strong>http://ipic.io@routes.Application.list(piclet)</a></li>
                 </ul>
 
 
@@ -76,13 +33,7 @@
     <div class="cl-mcont">
         <div class="page-head">
 
-
-
         </div>
-
-
-
-
 
         <form action="@routes.Application.uploadPrivate(piclet,adminToken)" class="dropzone" id="my-awesome-dropzone"></form>
 
@@ -90,7 +41,7 @@
             <div class="col-md-12">
                 <div class="block-flat">
                     <div class="header">
-                        <h3>Your files</h3>
+                        <h3>@files.size file@{if (files.size > 0)"s"}</h3>
                     </div>
                     <div class="content">
                         <div class="table-responsive">
@@ -173,8 +124,6 @@ Dropzone.options.myAwesomeDropzone = {
     });
 
     this.on("success", function(file, response) {
-        //console.log(response);
-        //console.log(file);
         var rep = jQuery.parseJSON(response);
         var append = '<tr id="'+rep.id+'"><td><input type="checkbox"></td><td><div class="img">';
         if (rep.thumbnailUrl) {
@@ -182,24 +131,20 @@ Dropzone.options.myAwesomeDropzone = {
         } else {
             append += '<i class="fa fa-file-text-o fa-4x"></i>';
         }
-        append += '</div></td><td><a href='+file.url+'>'+file.name+'</a></td><td>N/A</td><td>'+rep.modificationDatePretty+'</td><td class="text-center"><a class="label label-danger ipic-delete-file" href=""><i class="fa fa-times"></i></a></td></tr>'
+        append += '</div></td><td><a href='+rep.url+'>'+rep.name+'</a></td><td>N/A</td><td>'+rep.modificationDatePretty+'</td><td class="text-center"><a class="label label-danger ipic-delete-file" href=""><i class="fa fa-times"></i></a></td></tr>'
         $('#' + rep.id).remove();
         $('#files-table > tbody:last').append(append);
         var dropZone = this;
         setTimeout(function (){
              dropZone.removeFile(file);
          }, 3000);
-
     });
-
   }
-
 };
 </script>
 
 <script type="text/javascript">
 $(document).on("click", ".ipic-delete-file", function() {
-    console.log('delete clicked');
     var file = $(this).closest('tr').find("td").eq(2).find("a").html();
     var data = new Object();
     var files = new Array();
@@ -217,9 +162,6 @@ $(document).on("click", ".ipic-delete-file", function() {
 });
 
 $(document).on("click", ".ipic-delete-selected", function() {
-
-    console.log('delete selected clicked');
-
     var files = new Array();
     $( ".check-class" ).each(function( index, element ) {
         if($(element).is(':checked')) {
@@ -227,7 +169,6 @@ $(document).on("click", ".ipic-delete-selected", function() {
             files.push(file);
             $(element).closest('tr').remove();
         }
-
     });
 
     var file = $(this).closest('tr').find("td").eq(2).html();

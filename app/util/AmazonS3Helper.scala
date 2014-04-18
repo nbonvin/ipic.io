@@ -81,7 +81,7 @@ class AmazonS3Helper {
   def listFiles(piclet:String): List[iFile] = {
 
     val folder = piclet + "/"
-    Cache.getOrElse[List[iFile]](piclet) {
+    Cache.getOrElse[List[iFile]](piclet, Config.cachingTime) {
       val objects: ObjectListing = client.listObjects(bucket, folder)
       objects.getObjectSummaries.filterNot(_.getKey.replaceAll(folder,"").startsWith(s"${Config.thumbSize}x${Config.thumbSize}")).map{o : S3ObjectSummary =>
          val name =  o.getKey.replaceAll(folder,"")
