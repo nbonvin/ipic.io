@@ -1,7 +1,7 @@
 @(piclet: String, adminToken: String, files: List[iFile])
 
 @main {
-<body class="animated">
+<body class="animated" xmlns="http://www.w3.org/1999/html">
 
 <div id="cl-wrapper">
 <div class="container-fluid" id="pcont">
@@ -9,14 +9,16 @@
     <div id="head-nav" class="topbar navbar navbar-default">
         <div class="container-fluid">
 
-
+            <div class="sidebar-logo">
+                <div class="logo">
+                    <a href="@routes.Application.index"></a>
+                </div>
+            </div>
 
             <div class="navbar-collapse">
 
                 <ul class="nav navbar-nav horizontal">
-                    <li class=""><a href="@routes.Application.index"> <strong>iPic.io </strong></a></li>
                     <li class="active"><a href="@routes.Application.list(piclet)"><i class="fa fa-globe"></i> Go to your public piclet</a></li>
-
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right user-nav">
@@ -29,66 +31,70 @@
         </div>
     </div>
 
+    <section id="no-more-tables">
 
-    <div class="cl-mcont">
-        <div class="page-head">
+        <div class="cl-mcont">
+            <div class="page-head">
 
-        </div>
+            </div>
 
-        <form action="@routes.Application.uploadPrivate(piclet,adminToken)" class="dropzone" id="my-awesome-dropzone"></form>
+            <form action="@routes.Application.uploadPrivate(piclet,adminToken)" class="dropzone" id="my-awesome-dropzone"></form>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block-flat">
-                    <div class="header">
-                        <h3>@files.size file@{if (files.size > 0)"s"}</h3>
-                    </div>
-                    <div class="content">
-                        <div class="table-responsive">
-                            <table class="table no-border hover" id="files-table">
-                                <thead class="no-border">
-                                <tr>
-                                    <th style="width:2%;"><input type="checkbox" id="check-all"></th>
-                                    <th style="width:10%;"><strong></strong></th>
-                                    <th style="width:30%;"><strong>Name</strong></th>
-                                    <th style="width:15%;"><strong>Size</strong></th>
-                                    <th style="width:15%;"><strong>Last Modification</strong></th>
-                                    <th style="width:5%;" class="text-center"><strong>Action</strong></th>
-                                </tr>
-                                </thead>
-                                <tbody class="no-border-y">
-                                @files.map{ file =>
-                                <tr id="@file.id" >
-                                    <td><input class="check-class" type="checkbox" id="check-@file.id"></td>
-                                    <td>
-                                        <div class="img">
-                                            <!--
-                                            @file
-                                            -->
-                                            @file.thumbnailUrl.map{ u =>
-                                            <img height="50px" src="@u">
-                                            }.getOrElse {
-                                            <i class="fa fa-file-text-o fa-4x"></i>
-                                            }
-                                        </div>
 
-                                    </td>
-                                    <td><a href="@file.url">@file.name</a></td>
-                                    <td>@file.sizePretty</td>
-                                    <td>@file.lastModifPretty</td>
-                                    <td class="text-center"><a class="label label-danger ipic-delete-file" href=""><i class="fa fa-times"></i></a></td>
-                                </tr>
-                                }
-                                </tbody>
-                            </table>
-                            <button type="button" class="btn btn-danger ipic-delete-selected">Delete all checked</button>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        <div class="header">
+                            <h3>@files.size file@{if (files.size > 0)"s"}</h3>
+                        </div>
+                        <div class="content">
+                            <div class="table-responsive">
+                                <table class="table no-border hover" id="files-table">
+                                    <thead class="no-border">
+                                    <tr>
+                                        <th style="width:2%;"><input type="checkbox" id="check-all"></th>
+                                        <th style="width:10%;"><strong></strong></th>
+                                        <th style="width:30%;"><strong>Name</strong></th>
+                                        <th style="width:15%;"><strong>Size</strong></th>
+                                        <th style="width:15%;"><strong>Last Modification</strong></th>
+                                        <th style="width:5%;" class="text-center"><strong>Action</strong></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="no-border-y">
+                                    @files.map{ file =>
+                                    <tr id="@file.id" >
+                                        <td><input class="check-class" type="checkbox" id="check-@file.id"></td>
+                                        <td>
+                                            <div class="img">
+                                                <!--
+                                                @file
+                                                -->
+                                                @file.thumbnailUrl.map{ u =>
+                                                <img height="50px" src="@u">
+                                                }.getOrElse {
+                                                <i class="fa fa-file-text-o fa-4x"></i>
+                                                }
+                                            </div>
+
+                                        </td>
+                                        <td data-title="Name"><a href="@file.url">@file.name</a></td>
+                                        <td data-title="Size">@file.sizePretty</td>
+                                        <td data-title="Last Modification">@file.lastModifPretty</td>
+                                        <td data-title="Delete"class="text-center"><a class="label label-danger ipic-delete-file" href=""><i class="fa fa-times"></i></a></td>
+                                    </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-danger ipic-delete-selected">Delete all checked</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-    </div>
+    </section>
 
 </div>
 
@@ -117,7 +123,7 @@ Dropzone.options.myAwesomeDropzone = {
         $.gritter.add({
             title: 'Upload completed',
             text: 'Your files have been uploaded.',
-            class_name: 'clean',
+            class_name: 'success',
             time: ''
       });
       }

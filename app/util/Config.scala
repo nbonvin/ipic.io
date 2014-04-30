@@ -21,5 +21,5 @@ object Config {
   val cachingTime = 60 * 60
 
   // Temporary files folder
-  val tempFolder = Play.current.configuration.getString("ipic.tempFolder").getOrElse("/tmp/")
+  val tempFolder = "/tmp/" //Play.current.configuration.getString("ipic.tempFolder").getOrElse("/tmp/")
 }

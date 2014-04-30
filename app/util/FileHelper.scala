@@ -8,6 +8,7 @@
 package util
 
 import java.io.File
+import play.api.Logger
 
 object FileHelper {
 
@@ -31,5 +32,8 @@ object FileHelper {
    * Generate a unique file
    * @return
    */
-  def getTmpFile = new File(Config.tempFolder + idLock.synchronized { System.nanoTime() } + ".tmp")
+  def getTmpFile = {
+    Logger.error(s"Temp folder: ${Config.tempFolder}")
+    new File(Config.tempFolder + idLock.synchronized { System.nanoTime() } + ".tmp")
+  }
 }

@@ -109,7 +109,15 @@ object Application extends Controller {
           val filename = picture.filename
           val contentType = picture.contentType.getOrElse("")
           val tmpFile = FileHelper.getTmpFile
+        try {
           picture.ref.moveTo(tmpFile)
+        } catch {
+          case e: Exception => {
+            Logger.error(s"Unable to move ${picture.ref.file.getAbsolutePath} to ${tmpFile.getAbsolutePath}: ${e.getMessage}")
+            throw e
+          }
+
+        }
           if (contentType.startsWith("image")) {
             val thumbName = s"${Config.thumbSize}x${Config.thumbSize}-$filename"
             implicit val timeout = Timeout(5 minutes)

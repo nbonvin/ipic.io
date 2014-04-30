@@ -18,8 +18,13 @@
             <div class="navbar-collapse collapse">
 
 
+                <div class="sidebar-logo">
+                    <div class="logo">
+                        <a href="@routes.Application.index"></a>
+                    </div>
+                </div>
+
                 <ul class="nav navbar-nav horizontal">
-                    <li class=""><a href="@routes.Application.index"> <strong>iPic.io </strong></a></li>
                     <li class=""><a href="@routes.Application.index"><i class="fa fa-plus-square"></i> Create your own piclet</a></li>
                     <li class=""><a href="@routes.Application.getS3ZippedObjects(piclet)"><i class="fa fa-cloud-download"></i> Download piclet as ZIP</a></li>
 
@@ -37,83 +42,84 @@
         </div>
     </div>
 
+    <section id="no-more-tables">
+        <div class="cl-mcont">
+            <div class="page-head">
 
-    <div class="cl-mcont">
-        <div class="page-head">
+            </div>
 
-        </div>
-
-        @if(listing == "gallery"){
-        <div class="gallery-cont" style="position: relative; height: 676px;">
-            @files.map{ file =>
-            <!-- position: absolute; left: 0px; top: 0px; -->
-            <div class="item">
-                <div class="photo">
-                    <div class="head">
-                        <span class="pull-right"><a href="@file.url.getOrElse("")"><i class="fa fa-cloud-download"></i></a> </span><b>@file.name</b><br>
-                        <span class="desc">537 KB, modified @file.lastModifPretty</span>
-                    </div>
-                    <div class="img">
-                         <a class="fancybox-button" rel="fancybox-button" href="@file.url.getOrElse("")" title="">
-                            @file.thumbnailUrl.map{ u =>
-                            <img src="@u">
-                            }.getOrElse {
-                            <i class="fa fa-file-text-o fa-4x"></i>
-                            }
-                         </a>
+            @if(listing == "gallery"){
+            <div class="gallery-cont" style="position: relative; height: 676px;">
+                @files.map{ file =>
+                <!-- position: absolute; left: 0px; top: 0px; -->
+                <div class="item">
+                    <div class="photo">
+                        <div class="head">
+                            <span class="pull-right"><a href="@file.url.getOrElse("")"><i class="fa fa-cloud-download"></i></a> </span><b>@file.name</b><br>
+                            <span class="desc">537 KB, modified @file.lastModifPretty</span>
+                        </div>
+                        <div class="img">
+                             <a class="fancybox-button" rel="fancybox-button" href="@file.url.getOrElse("")" title="">
+                                @file.thumbnailUrl.map{ u =>
+                                <img src="@u">
+                                }.getOrElse {
+                                <i class="fa fa-file-text-o fa-4x"></i>
+                                }
+                             </a>
+                        </div>
                     </div>
                 </div>
+               }
             </div>
-           }
-        </div>
-        } else {
+            } else {
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="block-flat">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat">
 
-                    <div class="content">
-                        <div class="table-responsive">
-                            <table class="table no-border hover" id="files-table">
-                                <thead class="no-border">
-                                <tr>
-                                    <th style="width:10%;"><strong></strong></th>
-                                    <th style="width:30%;"><strong>Name</strong></th>
-                                    <th style="width:15%;"><strong>Size</strong></th>
-                                    <th style="width:15%;"><strong>Last Modification</strong></th>
-                                </tr>
-                                </thead>
-                                <tbody class="no-border-y">
-                                @files.map{ file =>
-                                <tr id="@file.id" >
-                                    <td>
-                                        <div class="img">
-                                            <a class="fancybox-button" rel="fancybox-button" href="@file.url.getOrElse("")" title="">
-                                            @file.thumbnailUrl.map{ u =>
-                                            <img height="50px" src="@u">
-                                            }.getOrElse {
-                                            <i class="fa fa-file-text-o fa-4x"></i>
-                                            }
-                                            </a>
-                                        </div>
+                        <div class="content">
+                            <div class="table-responsive">
+                                <table class="table no-border hover" id="files-table">
+                                    <thead class="no-border">
+                                    <tr>
+                                        <th style="width:10%;"><strong></strong></th>
+                                        <th style="width:30%;"><strong>Name</strong></th>
+                                        <th style="width:15%;"><strong>Size</strong></th>
+                                        <th style="width:15%;"><strong>Last Modification</strong></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="no-border-y">
+                                    @files.map{ file =>
+                                    <tr id="@file.id" >
+                                        <td>
+                                            <div class="img">
+                                                <a class="fancybox-button" rel="fancybox-button" href="@file.url.getOrElse("")" title="">
+                                                @file.thumbnailUrl.map{ u =>
+                                                <img height="50px" src="@u">
+                                                }.getOrElse {
+                                                <i class="fa fa-file-text-o fa-4x"></i>
+                                                }
+                                                </a>
+                                            </div>
 
-                                    </td>
-                                    <td><a href="@file.url">@file.name</a></td>
-                                    <td>@file.sizePretty</td>
-                                    <td>@file.lastModifPretty</td>
-                                </tr>
-                                }
-                                </tbody>
-                            </table>
+                                        </td>
+                                        <td data-title="Name"><a href="@file.url">@file.name</a></td>
+                                        <td data-title="Size">@file.sizePretty</td>
+                                        <td data-title="Last Modification">@file.lastModifPretty</td>
+                                    </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            }
+
         </div>
-
-        }
-
-    </div>
+    </section>
 
 </div>
 
